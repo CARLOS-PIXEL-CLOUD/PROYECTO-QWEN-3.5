@@ -10,15 +10,15 @@ jobs:
   ia-agent:
     runs-on: ubuntu-latest
     steps:
-      - name: Descargar Código
+      - name: Descargar Codigo del Repositorio
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Configurar Entorno de Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Instalar Librería Oficial de Groq
+      - name: Instalar Libreria Oficial de Groq
         run: |
           pip install groq
 
@@ -31,16 +31,20 @@ jobs:
           from groq import Groq
 
           api_key_clean = os.environ.get('GROQ_API_KEY', '').strip()
+          
+          if not api_key_clean:
+              print('ERROR: La clave GROQ_API_KEY esta vacia.')
+              exit(1)
+
           client = Groq(api_key=api_key_clean)
 
-          # AQUÍ PUEDES CAMBIAR EL MODELO SI LO DESEAS
           completion = client.chat.completions.create(
               model='qwen-2.5-coder-32b', 
               messages=[
-                  {'role': 'system', 'content': 'Eres un agente autónomo de IA integrado en GitHub Actions.'},
-                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa e indica qué modelo estás empleando.'}
+                  {'role': 'system', 'content': 'Eres un agente autonomo de IA integrado en GitHub Actions. Tu cerebro es Qwen.'},
+                  {'role': 'user', 'content': 'Confirma tu conexion remota exitosa.'}
               ]
           )
-          print('\n=== INFORME REMOTO DEL AGENTE ===\n')
+          print('\n=== INFORME REMOTO DEL AGENTE QWEN ===\n')
           print(completion.choices.message.content)
           "
