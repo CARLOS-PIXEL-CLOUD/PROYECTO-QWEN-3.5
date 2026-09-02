@@ -1,4 +1,4 @@
-name: Agente Qwen 3.6 en la Nube
+name: Agente de IA en la Nube
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
         run: |
           pip install groq
 
-      - name: Ejecutar Cerebro y Agente Qwen
+      - name: Ejecutar Servidor con Groq Cloud
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
@@ -30,19 +30,17 @@ jobs:
           import os
           from groq import Groq
 
-          # Inicialización limpia con el SDK oficial de Groq
-          client = Groq(
-              api_key=os.environ.get('GROQ_API_KEY').strip()
-          )
+          api_key_clean = os.environ.get('GROQ_API_KEY', '').strip()
+          client = Groq(api_key=api_key_clean)
 
-          # Llamada directa al modelo Qwen 3.6 27B usando la sintaxis nativa de Groq
+          # AQUÍ PUEDES CAMBIAR EL MODELO SI LO DESEAS
           completion = client.chat.completions.create(
-              model='qwen/qwen3.6-27b', 
+              model='qwen-2.5-coder-32b', 
               messages=[
-                  {'role': 'system', 'content': 'Eres un agente autónomo de IA en la nube. Tu cerebro de razonamiento es Qwen 3.6.'},
-                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa desde GitHub Actions.'}
+                  {'role': 'system', 'content': 'Eres un agente autónomo de IA integrado en GitHub Actions.'},
+                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa e indica qué modelo estás empleando.'}
               ]
           )
-          print('\n=== INFORME REMOTO DEL AGENTE QWEN 3.6 ===\n')
+          print('\n=== INFORME REMOTO DEL AGENTE ===\n')
           print(completion.choices.message.content)
           "
