@@ -32,14 +32,14 @@ jobs:
               api_key=os.environ.get('GROQ_API_KEY')
           )
 
-          # Llamada directa al modelo avanzado Qwen 3.6 de Groq
+          # Activación del Cerebro y Agente Qwen 3.6 27B oficial en Groq
           completion = client.chat.completions.create(
               model='qwen/qwen3.6-27b', 
               messages=[
-                  {'role': 'system', 'content': 'Eres un agente autónomo de IA. Tu cerebro de razonamiento es Qwen 3.6.'},
-                  {'role': 'user', 'content': 'Analiza la estructura de este repositorio remoto y genera un reporte automático.'}
+                  {'role': 'system', 'content': 'Eres un agente autónomo avanzado de IA. Tu cerebro es el modelo Qwen 3.6 27B con capacidades agénticas nativas.'},
+                  {'role': 'user', 'content': 'Confirma tu conexión exitosa e indica cuáles son tus principales ventajas para el análisis de este repositorio.'}
               ]
           )
-          print('\n=== RESPUESTA DEL AGENTE QWEN 3.6 ===\n')
+          print('\n=== INFORME REMOTO DEL AGENTE QWEN 3.6 ===\n')
           print(completion.choices.message.content)
           "
