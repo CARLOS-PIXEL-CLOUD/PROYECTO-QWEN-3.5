@@ -32,12 +32,12 @@ jobs:
               api_key=os.environ.get('GROQ_API_KEY')
           )
 
-          # Llamada con el identificador oficial compatible con Groq API
+          # Identificador oficial obligatorio con barra inclinada en la API de Groq
           completion = client.chat.completions.create(
-              model='qwen-3.6-coder-27b', 
+              model='qwen/qwen3.6-27b', 
               messages=[
-                  {'role': 'system', 'content': 'Eres un agente autónomo avanzado de IA integrado en GitHub. Tu cerebro es Qwen 3.6.'},
-                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa desde este repositorio en la nube.'}
+                  {'role': 'system', 'content': 'Eres un agente autónomo de IA integrado en GitHub Actions. Tu cerebro es Qwen 3.6.'},
+                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa e indica tus ventajas de análisis en la nube.'}
               ]
           )
           print('\n=== INFORME REMOTO DEL AGENTE QWEN 3.6 ===\n')
