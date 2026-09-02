@@ -1,0 +1,45 @@
+name: Agente Qwen 3.6 en la Nube
+
+on:
+  push:
+    branches: [ "main", "master", "principal" ]
+  pull_request:
+    branches: [ "main", "master", "principal" ]
+
+jobs:
+  ia-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Ejecutar Cerebro y Agente Qwen
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          pip install openai
+          python -c "
+          import os
+          from openai import OpenAI
+
+          client = OpenAI(
+              base_url='https://groq.com',
+              api_key=os.environ.get('GROQ_API_KEY')
+          )
+
+          # Llamada directa al modelo avanzado Qwen 3.6 de Groq
+          completion = client.chat.completions.create(
+              model='qwen/qwen3.6-27b', 
+              messages=[
+                  {'role': 'system', 'content': 'Eres un agente autónomo de IA. Tu cerebro de razonamiento es Qwen 3.6.'},
+                  {'role': 'user', 'content': 'Analiza la estructura de este repositorio remoto y genera un reporte automático.'}
+              ]
+          )
+          print('\n=== RESPUESTA DEL AGENTE QWEN 3.6 ===\n')
+          print(completion.choices.message.content)
+          "
