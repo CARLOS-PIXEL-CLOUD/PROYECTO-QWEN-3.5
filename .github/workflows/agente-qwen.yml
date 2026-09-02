@@ -29,15 +29,17 @@ jobs:
 
           client = OpenAI(
               base_url='https://groq.com',
-              api_key=os.environ.get('GROQ_API_KEY')
+              api_key=os.environ.get('GROQ_API_KEY').strip()
           )
 
-          # Identificador oficial obligatorio con barra inclinada en la API de Groq
+          # Declaración limpia del modelo Qwen 3.6 para la API de Groq
+          target_model = str('qwen/qwen3.6-27b')
+
           completion = client.chat.completions.create(
-              model='qwen/qwen3.6-27b', 
+              model=target_model, 
               messages=[
                   {'role': 'system', 'content': 'Eres un agente autónomo de IA integrado en GitHub Actions. Tu cerebro es Qwen 3.6.'},
-                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa e indica tus ventajas de análisis en la nube.'}
+                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa desde este repositorio en la nube.'}
               ]
           )
           print('\n=== INFORME REMOTO DEL AGENTE QWEN 3.6 ===\n')
