@@ -18,28 +18,29 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Instalar Librería Oficial de Groq
+        run: |
+          pip install groq
+
       - name: Ejecutar Cerebro y Agente Qwen
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          pip install openai
           python -c "
           import os
-          from openai import OpenAI
+          from groq import Groq
 
-          client = OpenAI(
-              base_url='https://groq.com',
+          # Inicialización limpia con el SDK oficial de Groq
+          client = Groq(
               api_key=os.environ.get('GROQ_API_KEY').strip()
           )
 
-          # Declaración limpia del modelo Qwen 3.6 para la API de Groq
-          target_model = str('qwen/qwen3.6-27b')
-
+          # Llamada directa al modelo Qwen 3.6 27B usando la sintaxis nativa de Groq
           completion = client.chat.completions.create(
-              model=target_model, 
+              model='qwen/qwen3.6-27b', 
               messages=[
-                  {'role': 'system', 'content': 'Eres un agente autónomo de IA integrado en GitHub Actions. Tu cerebro es Qwen 3.6.'},
-                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa desde este repositorio en la nube.'}
+                  {'role': 'system', 'content': 'Eres un agente autónomo de IA en la nube. Tu cerebro de razonamiento es Qwen 3.6.'},
+                  {'role': 'user', 'content': 'Confirma tu conexión remota exitosa desde GitHub Actions.'}
               ]
           )
           print('\n=== INFORME REMOTO DEL AGENTE QWEN 3.6 ===\n')
